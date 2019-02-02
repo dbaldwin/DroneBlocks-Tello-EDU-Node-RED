@@ -1,0 +1,241 @@
+[
+    {
+        "id": "59d420d6.3e78",
+        "type": "tab",
+        "label": "Basic Intro to Node Flows",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9b602bb4.145758",
+        "type": "inject",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "topic": "",
+        "payload": "Hello World!",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 170,
+        "y": 420,
+        "wires": [
+            [
+                "a074ed22.d41e9"
+            ]
+        ]
+    },
+    {
+        "id": "ffceb947.42cae8",
+        "type": "debug",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 590,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9007db98.bf5888",
+        "type": "function",
+        "z": "59d420d6.3e78",
+        "name": "Replace",
+        "func": "msg.payload = msg.payload.replace(\"World\", \"Tello\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 560,
+        "wires": [
+            [
+                "8416f893.479ff8",
+                "d92cdce9.d78bd"
+            ]
+        ]
+    },
+    {
+        "id": "a074ed22.d41e9",
+        "type": "change",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "World",
+                "fromt": "str",
+                "to": "Tello",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 420,
+        "wires": [
+            [
+                "ffceb947.42cae8"
+            ]
+        ]
+    },
+    {
+        "id": "24df5b70.3a6694",
+        "type": "comment",
+        "z": "59d420d6.3e78",
+        "name": "Inject a custom string",
+        "info": "",
+        "x": 160,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "f7fe2c4e.758eb",
+        "type": "inject",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "1688b3f8.1b29bc"
+            ]
+        ]
+    },
+    {
+        "id": "1688b3f8.1b29bc",
+        "type": "debug",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 350,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "b7a7e165.08fd",
+        "type": "comment",
+        "z": "59d420d6.3e78",
+        "name": "Inject a timestamp and display in debug console",
+        "info": "",
+        "x": 240,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "59e2b59d.7ac95c",
+        "type": "debug",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 350,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "ba39c33f.690e6",
+        "type": "inject",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "topic": "",
+        "payload": "Hello World!",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "59e2b59d.7ac95c"
+            ]
+        ]
+    },
+    {
+        "id": "f4438458.088668",
+        "type": "comment",
+        "z": "59d420d6.3e78",
+        "name": "Inject a custom string and use change function",
+        "info": "",
+        "x": 240,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "5657eb3a.b8a3e4",
+        "type": "inject",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "topic": "",
+        "payload": "Hello World!",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 170,
+        "y": 560,
+        "wires": [
+            [
+                "9007db98.bf5888"
+            ]
+        ]
+    },
+    {
+        "id": "d54b7fda.c90bd",
+        "type": "comment",
+        "z": "59d420d6.3e78",
+        "name": "Inject a custom string and use a custom function",
+        "info": "",
+        "x": 240,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "8416f893.479ff8",
+        "type": "debug",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 530,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "d92cdce9.d78bd",
+        "type": "play audio",
+        "z": "59d420d6.3e78",
+        "name": "",
+        "voice": "",
+        "x": 530,
+        "y": 600,
+        "wires": []
+    }
+]

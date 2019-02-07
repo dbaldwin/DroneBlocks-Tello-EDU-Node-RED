@@ -1,0 +1,168 @@
+[
+    {
+        "id": "322a77c6.5212d8",
+        "type": "tab",
+        "label": "Tello First Flow",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1ee3d7f1.c5e238",
+        "type": "inject",
+        "z": "322a77c6.5212d8",
+        "name": "",
+        "topic": "",
+        "payload": "command",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 138,
+        "y": 216,
+        "wires": [
+            [
+                "a3a88cf.031bb7"
+            ]
+        ]
+    },
+    {
+        "id": "a3a88cf.031bb7",
+        "type": "udp out",
+        "z": "322a77c6.5212d8",
+        "name": "",
+        "addr": "192.168.10.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 433.5,
+        "y": 279,
+        "wires": []
+    },
+    {
+        "id": "8dc36fe8.be6f2",
+        "type": "udp in",
+        "z": "322a77c6.5212d8",
+        "name": "",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 118.5,
+        "y": 449,
+        "wires": [
+            [
+                "cc94517.54fa8b"
+            ]
+        ]
+    },
+    {
+        "id": "cc94517.54fa8b",
+        "type": "debug",
+        "z": "322a77c6.5212d8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 329.5,
+        "y": 449,
+        "wires": []
+    },
+    {
+        "id": "677343a3.a5436c",
+        "type": "comment",
+        "z": "322a77c6.5212d8",
+        "name": "2. Connect to Tello's Wifi (Tello-XXXXXX)",
+        "info": "",
+        "x": 207.5,
+        "y": 81,
+        "wires": []
+    },
+    {
+        "id": "dec00955.61f018",
+        "type": "comment",
+        "z": "322a77c6.5212d8",
+        "name": "Tello has a static IP address of 192.168.10.1 and port 8889",
+        "info": "",
+        "x": 539,
+        "y": 241,
+        "wires": []
+    },
+    {
+        "id": "d486bbaf.e0fbb8",
+        "type": "inject",
+        "z": "322a77c6.5212d8",
+        "name": "",
+        "topic": "",
+        "payload": "takeoff",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 128.5,
+        "y": 271,
+        "wires": [
+            [
+                "a3a88cf.031bb7"
+            ]
+        ]
+    },
+    {
+        "id": "83da33e7.4284",
+        "type": "inject",
+        "z": "322a77c6.5212d8",
+        "name": "",
+        "topic": "",
+        "payload": "land",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 129,
+        "y": 322,
+        "wires": [
+            [
+                "a3a88cf.031bb7"
+            ]
+        ]
+    },
+    {
+        "id": "babf872d.35fa08",
+        "type": "comment",
+        "z": "322a77c6.5212d8",
+        "name": "1. Power up Tello",
+        "info": "",
+        "x": 127.5,
+        "y": 34,
+        "wires": []
+    },
+    {
+        "id": "fbd0b1cf.004b5",
+        "type": "comment",
+        "z": "322a77c6.5212d8",
+        "name": "3. Inject each of the commands below",
+        "info": "",
+        "x": 198,
+        "y": 130,
+        "wires": []
+    },
+    {
+        "id": "c46eadc5.9e40b",
+        "type": "comment",
+        "z": "322a77c6.5212d8",
+        "name": "Tello will respond to Node-RED on port 8889",
+        "info": "",
+        "x": 229,
+        "y": 401,
+        "wires": []
+    }
+]

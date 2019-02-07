@@ -1,0 +1,113 @@
+[
+    {
+        "id": "499b42a.db888bc",
+        "type": "tab",
+        "label": "Tello UDP Simulation with Packet Sender",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "97ff8dcd.e50a1",
+        "type": "inject",
+        "z": "499b42a.db888bc",
+        "name": "",
+        "topic": "",
+        "payload": "command",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 109,
+        "y": 125,
+        "wires": [
+            [
+                "b5abbf69.e17f5",
+                "94e5d75d.c4fe38"
+            ]
+        ]
+    },
+    {
+        "id": "b5abbf69.e17f5",
+        "type": "debug",
+        "z": "499b42a.db888bc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 367,
+        "y": 98,
+        "wires": []
+    },
+    {
+        "id": "94e5d75d.c4fe38",
+        "type": "udp out",
+        "z": "499b42a.db888bc",
+        "name": "",
+        "addr": "127.0.0.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 386.5,
+        "y": 178,
+        "wires": []
+    },
+    {
+        "id": "30293264.f2a97e",
+        "type": "udp in",
+        "z": "499b42a.db888bc",
+        "name": "",
+        "iface": "",
+        "port": "9000",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 94.5,
+        "y": 349,
+        "wires": [
+            [
+                "f0612e6f.9f343"
+            ]
+        ]
+    },
+    {
+        "id": "f0612e6f.9f343",
+        "type": "debug",
+        "z": "499b42a.db888bc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 299.5,
+        "y": 349,
+        "wires": []
+    },
+    {
+        "id": "53faa8d5.959ca8",
+        "type": "comment",
+        "z": "499b42a.db888bc",
+        "name": "Configure Packet Sender to listen on port 8889 and inject a \"command\" message",
+        "info": "",
+        "x": 308.5,
+        "y": 28,
+        "wires": []
+    },
+    {
+        "id": "666972a5.a7a3ec",
+        "type": "comment",
+        "z": "499b42a.db888bc",
+        "name": "Listen on port 9000 for responses from Packet Sender",
+        "info": "",
+        "x": 234,
+        "y": 271,
+        "wires": []
+    }
+]

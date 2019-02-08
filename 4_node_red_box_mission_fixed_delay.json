@@ -1,0 +1,161 @@
+[
+    {
+        "id": "8a7625cd.d9fb88",
+        "type": "tab",
+        "label": "Tello Box Mission with Fixed Delay Between Commands",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "87f6852d.8cfb58",
+        "type": "template",
+        "z": "8a7625cd.d9fb88",
+        "name": "Mission",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "command\ntakeoff\nforward 100\ncw 90\nforward 100\ncw 90\nforward 100\ncw 90\nforward 100\ncw 90\nland",
+        "output": "str",
+        "x": 234.5,
+        "y": 205,
+        "wires": [
+            [
+                "93fa21f8.aa106"
+            ]
+        ]
+    },
+    {
+        "id": "fe5f3d.0ecfd0c",
+        "type": "inject",
+        "z": "8a7625cd.d9fb88",
+        "name": "Launch",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 98.5,
+        "y": 104,
+        "wires": [
+            [
+                "87f6852d.8cfb58"
+            ]
+        ]
+    },
+    {
+        "id": "93fa21f8.aa106",
+        "type": "csv",
+        "z": "8a7625cd.d9fb88",
+        "name": "Split commands",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "command",
+        "skip": "0",
+        "x": 353.5,
+        "y": 107,
+        "wires": [
+            [
+                "4fec732c.d0e1fc"
+            ]
+        ]
+    },
+    {
+        "id": "4fec732c.d0e1fc",
+        "type": "delay",
+        "z": "8a7625cd.d9fb88",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 525.5,
+        "y": 209,
+        "wires": [
+            [
+                "f4cbc486.3b3a18",
+                "1d38de94.56a221",
+                "30179c93.8da694"
+            ]
+        ]
+    },
+    {
+        "id": "cb1f840b.d53ff8",
+        "type": "say",
+        "z": "8a7625cd.d9fb88",
+        "name": "",
+        "voice": "",
+        "x": 945.5,
+        "y": 209,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1d38de94.56a221",
+        "type": "function",
+        "z": "8a7625cd.d9fb88",
+        "name": "Format command",
+        "func": "msg.payload = msg.payload.command;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 762.5,
+        "y": 209,
+        "wires": [
+            [
+                "cb1f840b.d53ff8"
+            ]
+        ]
+    },
+    {
+        "id": "f4cbc486.3b3a18",
+        "type": "udp out",
+        "z": "8a7625cd.d9fb88",
+        "name": "UDP to Tello",
+        "addr": "127.0.0.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 739.5,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "f1715d5e.98a61",
+        "type": "comment",
+        "z": "8a7625cd.d9fb88",
+        "name": "Tello Box Mission with Fixed Delay",
+        "info": "",
+        "x": 167.5,
+        "y": 53,
+        "wires": []
+    },
+    {
+        "id": "30179c93.8da694",
+        "type": "debug",
+        "z": "8a7625cd.d9fb88",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 742.5,
+        "y": 277,
+        "wires": []
+    }
+]

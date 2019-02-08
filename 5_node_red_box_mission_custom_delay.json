@@ -1,0 +1,252 @@
+[
+    {
+        "id": "8a7625cd.d9fb88",
+        "type": "tab",
+        "label": "Tello Box Mission with Custom Delay Between Commands",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "87f6852d.8cfb58",
+        "type": "template",
+        "z": "8a7625cd.d9fb88",
+        "name": "Mission template",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "command,1000\ntakeoff,4000\nforward 100,5000\ncw 90,3000\nforward 100,5000\ncw 90,3000\nforward 100,5000\ncw 90,3000\nforward 100,5000\ncw 90,3000\nland,1000",
+        "output": "str",
+        "x": 537.0000076293945,
+        "y": 105.00000190734863,
+        "wires": [
+            [
+                "93fa21f8.aa106"
+            ]
+        ]
+    },
+    {
+        "id": "fe5f3d.0ecfd0c",
+        "type": "inject",
+        "z": "8a7625cd.d9fb88",
+        "name": "Launch",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 98.5,
+        "y": 104,
+        "wires": [
+            [
+                "164b15f2.8373aa"
+            ]
+        ]
+    },
+    {
+        "id": "93fa21f8.aa106",
+        "type": "csv",
+        "z": "8a7625cd.d9fb88",
+        "name": "Split commands",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "command,delay",
+        "skip": "0",
+        "x": 751.0000076293945,
+        "y": 105.00000381469727,
+        "wires": [
+            [
+                "a3b37912.63da18"
+            ]
+        ]
+    },
+    {
+        "id": "f1715d5e.98a61",
+        "type": "comment",
+        "z": "8a7625cd.d9fb88",
+        "name": "Tello Box Mission with Custom Delay",
+        "info": "",
+        "x": 177.5,
+        "y": 53,
+        "wires": []
+    },
+    {
+        "id": "e3afdcf2.87428",
+        "type": "function",
+        "z": "8a7625cd.d9fb88",
+        "name": "Store mission",
+        "func": "// Load the Mission commands into a flow array\nvar mission = flow.get(\"mission\") || [];\nmission.push(msg.payload);\nflow.set(\"mission\", mission);\n\n// Load all the Mission Commands and exit\nif(msg.parts.index != (msg.parts.count - 1)) {\n    return null ; \n}\n// Continue with the flow once the last Mission command has been stored\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 163.75003814697266,
+        "y": 177.50001907348633,
+        "wires": [
+            [
+                "7975bed4.c5bda"
+            ]
+        ]
+    },
+    {
+        "id": "7975bed4.c5bda",
+        "type": "function",
+        "z": "8a7625cd.d9fb88",
+        "name": "Process each command",
+        "func": "var mission = flow.get(\"mission\");\nvar index = flow.get(\"commandIndex\");\nvar telloCommand;\n\nif(index < mission.length) {\n    msg.payload = mission[index].command;\n    msg.delay = mission[index].delay;\n    return msg;\n}\n\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 427.50003814697266,
+        "y": 226.00000381469727,
+        "wires": [
+            [
+                "cf5bed6e.c67d1",
+                "5236c4b2.cf197c",
+                "f2699f8b.4081e"
+            ]
+        ]
+    },
+    {
+        "id": "164b15f2.8373aa",
+        "type": "change",
+        "z": "8a7625cd.d9fb88",
+        "name": "Initialize mission variables",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "mission",
+                "pt": "flow"
+            },
+            {
+                "t": "set",
+                "p": "commandIndex",
+                "pt": "flow",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 297.75,
+        "y": 104.50000381469727,
+        "wires": [
+            [
+                "87f6852d.8cfb58"
+            ]
+        ]
+    },
+    {
+        "id": "ac5667d5.8a8518",
+        "type": "change",
+        "z": "8a7625cd.d9fb88",
+        "name": "Increment command index",
+        "rules": [
+            {
+                "t": "set",
+                "p": "commandIndex",
+                "pt": "flow",
+                "to": "($flowContext(\"commandIndex\")+1)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 434.75,
+        "y": 415.0000071525574,
+        "wires": [
+            [
+                "7975bed4.c5bda"
+            ]
+        ]
+    },
+    {
+        "id": "cf5bed6e.c67d1",
+        "type": "delay",
+        "z": "8a7625cd.d9fb88",
+        "name": "delay",
+        "pauseType": "delayv",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 695.7500114440918,
+        "y": 285.75000381469727,
+        "wires": [
+            [
+                "ac5667d5.8a8518"
+            ]
+        ]
+    },
+    {
+        "id": "5236c4b2.cf197c",
+        "type": "debug",
+        "z": "8a7625cd.d9fb88",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 695.6250114440918,
+        "y": 175.00000190734863,
+        "wires": []
+    },
+    {
+        "id": "f2699f8b.4081e",
+        "type": "udp out",
+        "z": "8a7625cd.d9fb88",
+        "name": "",
+        "addr": "192.168.10.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 754.3750152587891,
+        "y": 230.00000381469727,
+        "wires": []
+    },
+    {
+        "id": "a3b37912.63da18",
+        "type": "link out",
+        "z": "8a7625cd.d9fb88",
+        "name": "",
+        "links": [
+            "151de4c.b2a151b"
+        ],
+        "x": 880.6250133514404,
+        "y": 105.00000190734863,
+        "wires": []
+    },
+    {
+        "id": "151de4c.b2a151b",
+        "type": "link in",
+        "z": "8a7625cd.d9fb88",
+        "name": "",
+        "links": [
+            "a3b37912.63da18"
+        ],
+        "x": 38.125,
+        "y": 177.50000286102295,
+        "wires": [
+            [
+                "e3afdcf2.87428"
+            ]
+        ]
+    }
+]

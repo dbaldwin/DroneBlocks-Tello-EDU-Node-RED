@@ -1,15 +1,15 @@
 [
     {
-        "id": "8a7625cd.d9fb88",
+        "id": "6688707f.69e7f",
         "type": "tab",
         "label": "Tello Box Mission with Fixed Delay Between Commands",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "87f6852d.8cfb58",
+        "id": "22c9bead.3a2702",
         "type": "template",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "Mission",
         "field": "payload",
         "fieldType": "msg",
@@ -21,14 +21,14 @@
         "y": 205,
         "wires": [
             [
-                "93fa21f8.aa106"
+                "59cabb4a.6d5674"
             ]
         ]
     },
     {
-        "id": "fe5f3d.0ecfd0c",
+        "id": "dfe0ebde.ada2e8",
         "type": "inject",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "Launch",
         "topic": "",
         "payload": "true",
@@ -41,14 +41,14 @@
         "y": 104,
         "wires": [
             [
-                "87f6852d.8cfb58"
+                "22c9bead.3a2702"
             ]
         ]
     },
     {
-        "id": "93fa21f8.aa106",
+        "id": "59cabb4a.6d5674",
         "type": "csv",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "Split commands",
         "sep": ",",
         "hdrin": "",
@@ -61,14 +61,14 @@
         "y": 107,
         "wires": [
             [
-                "4fec732c.d0e1fc"
+                "c5c4b088.17817"
             ]
         ]
     },
     {
-        "id": "4fec732c.d0e1fc",
+        "id": "c5c4b088.17817",
         "type": "delay",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "",
         "pauseType": "rate",
         "timeout": "5",
@@ -84,44 +84,44 @@
         "y": 209,
         "wires": [
             [
-                "f4cbc486.3b3a18",
-                "1d38de94.56a221",
-                "30179c93.8da694"
+                "e17cbf00.42c61",
+                "3bc2ce0b.21b2f2"
             ]
         ]
     },
     {
-        "id": "cb1f840b.d53ff8",
+        "id": "a4aa1e71.a40cf",
         "type": "say",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "",
         "voice": "",
         "x": 945.5,
-        "y": 209,
+        "y": 213,
         "wires": [
             []
         ]
     },
     {
-        "id": "1d38de94.56a221",
+        "id": "e17cbf00.42c61",
         "type": "function",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "Format command",
         "func": "msg.payload = msg.payload.command;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 762.5,
-        "y": 209,
+        "x": 749.5,
+        "y": 159,
         "wires": [
             [
-                "cb1f840b.d53ff8"
+                "a4aa1e71.a40cf",
+                "5a46063f.c6c528"
             ]
         ]
     },
     {
-        "id": "f4cbc486.3b3a18",
+        "id": "5a46063f.c6c528",
         "type": "udp out",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "UDP to Tello",
         "addr": "127.0.0.1",
         "iface": "",
@@ -130,14 +130,14 @@
         "outport": "",
         "base64": false,
         "multicast": "false",
-        "x": 739.5,
-        "y": 140,
+        "x": 957.5,
+        "y": 106,
         "wires": []
     },
     {
-        "id": "f1715d5e.98a61",
+        "id": "64aa6dbf.bc67a4",
         "type": "comment",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "Tello Box Mission with Fixed Delay",
         "info": "",
         "x": 167.5,
@@ -145,15 +145,15 @@
         "wires": []
     },
     {
-        "id": "30179c93.8da694",
+        "id": "3bc2ce0b.21b2f2",
         "type": "debug",
-        "z": "8a7625cd.d9fb88",
+        "z": "6688707f.69e7f",
         "name": "",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
         "x": 742.5,
         "y": 277,
         "wires": []

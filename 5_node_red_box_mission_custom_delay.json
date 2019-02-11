@@ -1,15 +1,15 @@
 [
     {
-        "id": "8a7625cd.d9fb88",
+        "id": "bc248bc4.10bf88",
         "type": "tab",
         "label": "Tello Box Mission with Custom Delay Between Commands",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "87f6852d.8cfb58",
+        "id": "3ae31ac7.1be586",
         "type": "template",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Mission template",
         "field": "payload",
         "fieldType": "msg",
@@ -21,14 +21,14 @@
         "y": 105.00000190734863,
         "wires": [
             [
-                "93fa21f8.aa106"
+                "5edd7fbb.adcee"
             ]
         ]
     },
     {
-        "id": "fe5f3d.0ecfd0c",
+        "id": "b9b872cd.b603a",
         "type": "inject",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Launch",
         "topic": "",
         "payload": "true",
@@ -41,14 +41,14 @@
         "y": 104,
         "wires": [
             [
-                "164b15f2.8373aa"
+                "e03732e0.8e91a"
             ]
         ]
     },
     {
-        "id": "93fa21f8.aa106",
+        "id": "5edd7fbb.adcee",
         "type": "csv",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Split commands",
         "sep": ",",
         "hdrin": "",
@@ -61,14 +61,14 @@
         "y": 105.00000381469727,
         "wires": [
             [
-                "a3b37912.63da18"
+                "bcdc4cac.8f5c2"
             ]
         ]
     },
     {
-        "id": "f1715d5e.98a61",
+        "id": "7742dc1.1b31f24",
         "type": "comment",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Tello Box Mission with Custom Delay",
         "info": "",
         "x": 177.5,
@@ -76,25 +76,25 @@
         "wires": []
     },
     {
-        "id": "e3afdcf2.87428",
+        "id": "8b44d5a6.501138",
         "type": "function",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Store mission",
-        "func": "// Load the Mission commands into a flow array\nvar mission = flow.get(\"mission\") || [];\nmission.push(msg.payload);\nflow.set(\"mission\", mission);\n\n// Load all the Mission Commands and exit\nif(msg.parts.index != (msg.parts.count - 1)) {\n    return null ; \n}\n// Continue with the flow once the last Mission command has been stored\nreturn msg;",
+        "func": "// Load the Mission commands into a flow array\nvar mission = flow.get(\"mission\") || [];\nmission.push(msg.payload);\nflow.set(\"mission\", mission);\n\n// Load all the Mission Commands and exit\nif(msg.parts.index < msg.parts.count-1) {\n    return null ; \n}\n// Continue with the flow once the last Mission command has been stored\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 163.75003814697266,
         "y": 177.50001907348633,
         "wires": [
             [
-                "7975bed4.c5bda"
+                "1b44cb2f.cda615"
             ]
         ]
     },
     {
-        "id": "7975bed4.c5bda",
+        "id": "1b44cb2f.cda615",
         "type": "function",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Process each command",
         "func": "var mission = flow.get(\"mission\");\nvar index = flow.get(\"commandIndex\");\nvar telloCommand;\n\nif(index < mission.length) {\n    msg.payload = mission[index].command;\n    msg.delay = mission[index].delay;\n    return msg;\n}\n\nreturn null;",
         "outputs": 1,
@@ -103,16 +103,16 @@
         "y": 226.00000381469727,
         "wires": [
             [
-                "cf5bed6e.c67d1",
-                "5236c4b2.cf197c",
-                "f2699f8b.4081e"
+                "423d4270.bb97dc",
+                "875e7ea1.a8914",
+                "6da45b52.2065b4"
             ]
         ]
     },
     {
-        "id": "164b15f2.8373aa",
+        "id": "e03732e0.8e91a",
         "type": "change",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Initialize mission variables",
         "rules": [
             {
@@ -137,14 +137,14 @@
         "y": 104.50000381469727,
         "wires": [
             [
-                "87f6852d.8cfb58"
+                "3ae31ac7.1be586"
             ]
         ]
     },
     {
-        "id": "ac5667d5.8a8518",
+        "id": "95f4a0dd.78548",
         "type": "change",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "Increment command index",
         "rules": [
             {
@@ -164,14 +164,14 @@
         "y": 415.0000071525574,
         "wires": [
             [
-                "7975bed4.c5bda"
+                "1b44cb2f.cda615"
             ]
         ]
     },
     {
-        "id": "cf5bed6e.c67d1",
+        "id": "423d4270.bb97dc",
         "type": "delay",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "delay",
         "pauseType": "delayv",
         "timeout": "5",
@@ -187,14 +187,14 @@
         "y": 285.75000381469727,
         "wires": [
             [
-                "ac5667d5.8a8518"
+                "95f4a0dd.78548"
             ]
         ]
     },
     {
-        "id": "5236c4b2.cf197c",
+        "id": "875e7ea1.a8914",
         "type": "debug",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -206,9 +206,9 @@
         "wires": []
     },
     {
-        "id": "f2699f8b.4081e",
+        "id": "6da45b52.2065b4",
         "type": "udp out",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "",
         "addr": "192.168.10.1",
         "iface": "",
@@ -222,30 +222,30 @@
         "wires": []
     },
     {
-        "id": "a3b37912.63da18",
+        "id": "bcdc4cac.8f5c2",
         "type": "link out",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "",
         "links": [
-            "151de4c.b2a151b"
+            "ef4f347c.7f46e8"
         ],
         "x": 880.6250133514404,
         "y": 105.00000190734863,
         "wires": []
     },
     {
-        "id": "151de4c.b2a151b",
+        "id": "ef4f347c.7f46e8",
         "type": "link in",
-        "z": "8a7625cd.d9fb88",
+        "z": "bc248bc4.10bf88",
         "name": "",
         "links": [
-            "a3b37912.63da18"
+            "bcdc4cac.8f5c2"
         ],
         "x": 38.125,
         "y": 177.50000286102295,
         "wires": [
             [
-                "e3afdcf2.87428"
+                "8b44d5a6.501138"
             ]
         ]
     }

@@ -1,0 +1,307 @@
+[
+    {
+        "id": "bf52268b.f330d8",
+        "type": "tab",
+        "label": "Abort Mission",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6751472b.5be2b8",
+        "type": "debug",
+        "z": "bf52268b.f330d8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 803,
+        "y": 318,
+        "wires": []
+    },
+    {
+        "id": "bdc20330.25e55",
+        "type": "function",
+        "z": "bf52268b.f330d8",
+        "name": "Command queue",
+        "func": "// Use a message queue to handle this mission\nvar queue = context.get(\"queue\") || [];\nvar busy = context.get(\"busy\") || false;\n\nif(flow.get(\"abort\") === true) {\n    flow.set(\"abort\", false);\n    context.set(\"queue\", []);\n    context.set(\"busy\", false);\n// Ready for processing next command\n} else if (msg.hasOwnProperty(\"ready\")) {\n    if (queue.length > 0) {\n        var message = queue.shift();\n        msg.payload = message.command;\n        return msg;\n    } else {\n        context.set(\"busy\", false);\n    }\n// This happens the first time the node is processed\n} else {\n    // This builds up the command queue\n    if (busy) {\n        queue.push(msg.payload);\n        context.set(\"queue\", queue);\n    // When the command queue is done building we pass the message to the next node and begin the mission\n    } else {\n        context.set(\"busy\", true);\n        msg.payload = msg.payload.command;\n        return msg;\n    }\n}\n\n// We only want messages to be passed based on the logic above\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 576,
+        "y": 264,
+        "wires": [
+            [
+                "6751472b.5be2b8",
+                "f7b17779.942198"
+            ]
+        ]
+    },
+    {
+        "id": "f6b6b858.546bb8",
+        "type": "function",
+        "z": "bf52268b.f330d8",
+        "name": "Ready",
+        "func": "msg.ready = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 534,
+        "y": 350,
+        "wires": [
+            [
+                "bdc20330.25e55"
+            ]
+        ]
+    },
+    {
+        "id": "f7b17779.942198",
+        "type": "udp out",
+        "z": "bf52268b.f330d8",
+        "name": "",
+        "addr": "192.168.10.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 836,
+        "y": 214,
+        "wires": []
+    },
+    {
+        "id": "1931be31.53b192",
+        "type": "udp in",
+        "z": "bf52268b.f330d8",
+        "name": "",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 192,
+        "y": 443,
+        "wires": [
+            [
+                "e7c45212.a213e"
+            ]
+        ]
+    },
+    {
+        "id": "e7c45212.a213e",
+        "type": "switch",
+        "z": "bf52268b.f330d8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ok",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 342,
+        "y": 443,
+        "wires": [
+            [
+                "670cc655.791448"
+            ],
+            [
+                "e771cb1a.c9efe8",
+                "2c4ea25e.0827ee"
+            ]
+        ]
+    },
+    {
+        "id": "e771cb1a.c9efe8",
+        "type": "debug",
+        "z": "bf52268b.f330d8",
+        "name": "Display error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 522,
+        "y": 563,
+        "wires": []
+    },
+    {
+        "id": "5419867d.b6b058",
+        "type": "template",
+        "z": "bf52268b.f330d8",
+        "name": "Mission",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "command\ntakeoff\ngo 0 48 96 25\ngo 0 48 -96 25\ngo 0 -96 48 25\ngo 0 96 0 25\ngo 0 -96 -48 25\nland",
+        "output": "str",
+        "x": 276,
+        "y": 263,
+        "wires": [
+            [
+                "76e2418b.9dc85"
+            ]
+        ]
+    },
+    {
+        "id": "76e2418b.9dc85",
+        "type": "csv",
+        "z": "bf52268b.f330d8",
+        "name": "Split commands",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "command",
+        "skip": "0",
+        "x": 430,
+        "y": 161,
+        "wires": [
+            [
+                "bdc20330.25e55"
+            ]
+        ]
+    },
+    {
+        "id": "65190a90.609f24",
+        "type": "inject",
+        "z": "bf52268b.f330d8",
+        "name": "Launch!",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 142,
+        "y": 163,
+        "wires": [
+            [
+                "5419867d.b6b058"
+            ]
+        ]
+    },
+    {
+        "id": "2c4ea25e.0827ee",
+        "type": "say",
+        "z": "bf52268b.f330d8",
+        "name": "",
+        "voice": "",
+        "x": 505.5,
+        "y": 499,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "33c85bcb.f98fe4",
+        "type": "comment",
+        "z": "bf52268b.f330d8",
+        "name": "Handle responses from Tello",
+        "info": "",
+        "x": 253.5,
+        "y": 397,
+        "wires": []
+    },
+    {
+        "id": "13f8bfc2.0bf37",
+        "type": "comment",
+        "z": "bf52268b.f330d8",
+        "name": "Adding an Abort Mission Feature",
+        "info": "",
+        "x": 529.5,
+        "y": 69,
+        "wires": []
+    },
+    {
+        "id": "670cc655.791448",
+        "type": "delay",
+        "z": "bf52268b.f330d8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 513.5,
+        "y": 436,
+        "wires": [
+            [
+                "f6b6b858.546bb8"
+            ]
+        ]
+    },
+    {
+        "id": "cfbb144f.43d7b8",
+        "type": "comment",
+        "z": "bf52268b.f330d8",
+        "name": "Error handling",
+        "info": "",
+        "x": 336.5,
+        "y": 531,
+        "wires": []
+    },
+    {
+        "id": "8b444b17.469218",
+        "type": "inject",
+        "z": "bf52268b.f330d8",
+        "name": "Abort Mission!",
+        "topic": "",
+        "payload": "land",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 585.5,
+        "y": 112,
+        "wires": [
+            [
+                "96acc6a9.086618"
+            ]
+        ]
+    },
+    {
+        "id": "728783f6.d66ddc",
+        "type": "comment",
+        "z": "bf52268b.f330d8",
+        "name": "Launch the Vertical Star Mission",
+        "info": "",
+        "x": 197,
+        "y": 117,
+        "wires": []
+    },
+    {
+        "id": "96acc6a9.086618",
+        "type": "function",
+        "z": "bf52268b.f330d8",
+        "name": "Set abort",
+        "func": "flow.set(\"abort\", true);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 702.5,
+        "y": 157,
+        "wires": [
+            [
+                "f7b17779.942198"
+            ]
+        ]
+    }
+]

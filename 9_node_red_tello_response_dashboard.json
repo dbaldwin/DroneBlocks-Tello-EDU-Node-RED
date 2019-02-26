@@ -1,0 +1,334 @@
+[
+    {
+        "id": "3204a1e9.f49b5e",
+        "type": "tab",
+        "label": "Basic Tello Control and Response Dashboard",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6aab4c05.3d1f74",
+        "type": "ui_button",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "group": "185a8220.80312e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Takeoff",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "takeoff",
+        "payloadType": "str",
+        "topic": "",
+        "x": 88.5,
+        "y": 273,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "f9a1fc2e.3f733",
+        "type": "ui_text_input",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "label": "Enter SDK Command",
+        "tooltip": "",
+        "group": "185a8220.80312e",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "passthru": true,
+        "mode": "text",
+        "delay": "0",
+        "topic": "",
+        "x": 126.5,
+        "y": 324,
+        "wires": [
+            [
+                "546b0d8f.6f7d24"
+            ]
+        ]
+    },
+    {
+        "id": "546b0d8f.6f7d24",
+        "type": "function",
+        "z": "3204a1e9.f49b5e",
+        "name": "Validate message",
+        "func": "if (msg.payload.length === 0) {\n    return null;    \n} else {\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360.5,
+        "y": 322,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "8814ec4c.34814",
+        "type": "udp out",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "addr": "192.168.10.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 697.5,
+        "y": 325,
+        "wires": []
+    },
+    {
+        "id": "c50bde90.089bf",
+        "type": "ui_button",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "group": "185a8220.80312e",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Land",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "red",
+        "icon": "",
+        "payload": "land",
+        "payloadType": "str",
+        "topic": "",
+        "x": 79.5,
+        "y": 373,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "d08ea858.789768",
+        "type": "ui_button",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "group": "9302895e.01ee08",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Flip forward",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "flip f",
+        "payloadType": "str",
+        "topic": "",
+        "x": 355.5,
+        "y": 99,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "d34fe18d.c1eb7",
+        "type": "ui_button",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "group": "9302895e.01ee08",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Flip backward",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "flip b",
+        "payloadType": "str",
+        "topic": "",
+        "x": 365.5,
+        "y": 145,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "7ec57afa.89a074",
+        "type": "ui_button",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "group": "9302895e.01ee08",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Flip left",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 345.5,
+        "y": 188,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "d64226f7.bb9488",
+        "type": "ui_button",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "group": "9302895e.01ee08",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Flip right",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "flip r",
+        "payloadType": "str",
+        "topic": "",
+        "x": 345.5,
+        "y": 235,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "5b240be7.eae324",
+        "type": "ui_button",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "group": "185a8220.80312e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Command",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "command",
+        "payloadType": "str",
+        "topic": "",
+        "x": 98.5,
+        "y": 226,
+        "wires": [
+            [
+                "8814ec4c.34814"
+            ]
+        ]
+    },
+    {
+        "id": "2feeaf45.e19b3",
+        "type": "comment",
+        "z": "3204a1e9.f49b5e",
+        "name": "Basic dashboard demonstrating Tello control and response",
+        "info": "",
+        "x": 227.5,
+        "y": 36,
+        "wires": []
+    },
+    {
+        "id": "ccfabf70.9348b",
+        "type": "udp in",
+        "z": "3204a1e9.f49b5e",
+        "name": "",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "buffer",
+        "x": 599.5,
+        "y": 99,
+        "wires": [
+            [
+                "fb853031.271e4"
+            ]
+        ]
+    },
+    {
+        "id": "fb853031.271e4",
+        "type": "ui_text",
+        "z": "3204a1e9.f49b5e",
+        "group": "eceed0cf.804d3",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Response",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 612.5,
+        "y": 174,
+        "wires": []
+    },
+    {
+        "id": "185a8220.80312e",
+        "type": "ui_group",
+        "z": "",
+        "name": "Tello Control",
+        "tab": "84164df8.7041",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "9302895e.01ee08",
+        "type": "ui_group",
+        "z": "",
+        "name": "Flips",
+        "tab": "84164df8.7041",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "eceed0cf.804d3",
+        "type": "ui_group",
+        "z": "",
+        "name": "Tello Response",
+        "tab": "84164df8.7041",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "84164df8.7041",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Main",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]

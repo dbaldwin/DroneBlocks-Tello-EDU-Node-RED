@@ -1,17 +1,17 @@
 [
     {
-        "id": "b56c5c24.a2f6e",
+        "id": "173a3a0e.b30ea6",
         "type": "tab",
         "label": "Basic Tello Control Dashboard",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "bd59a2b3.303a4",
+        "id": "e4fda369.ce95b",
         "type": "ui_button",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
-        "group": "ddfefbbe.729768",
+        "group": "79fed3de.4663fc",
         "order": 2,
         "width": 0,
         "height": 0,
@@ -28,18 +28,18 @@
         "y": 273,
         "wires": [
             [
-                "b6b28de5.80a45"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "7bc26d78.c00c24",
+        "id": "f962c61e.d83dc8",
         "type": "ui_text_input",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
         "label": "Enter SDK Command",
         "tooltip": "",
-        "group": "ddfefbbe.729768",
+        "group": "79fed3de.4663fc",
         "order": 3,
         "width": "4",
         "height": "1",
@@ -51,30 +51,14 @@
         "y": 324,
         "wires": [
             [
-                "3feb69f3.a19f66"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "3feb69f3.a19f66",
-        "type": "function",
-        "z": "b56c5c24.a2f6e",
-        "name": "Validate message",
-        "func": "if (msg.payload.length === 0) {\n    return null;    \n} else {\n    return msg;\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 360.5,
-        "y": 322,
-        "wires": [
-            [
-                "b6b28de5.80a45"
-            ]
-        ]
-    },
-    {
-        "id": "b6b28de5.80a45",
+        "id": "b4544da6.44934",
         "type": "udp out",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
         "addr": "192.168.10.1",
         "iface": "",
@@ -88,11 +72,11 @@
         "wires": []
     },
     {
-        "id": "c6d3ba9f.4d6058",
+        "id": "9681d97a.a81298",
         "type": "ui_button",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
-        "group": "ddfefbbe.729768",
+        "group": "79fed3de.4663fc",
         "order": 4,
         "width": 0,
         "height": 0,
@@ -109,16 +93,16 @@
         "y": 373,
         "wires": [
             [
-                "b6b28de5.80a45"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "b8831792.0baeb8",
+        "id": "9312a363.fb3b4",
         "type": "ui_button",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
-        "group": "4793e25c.67ee4c",
+        "group": "500cf354.5d91dc",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -135,16 +119,16 @@
         "y": 99,
         "wires": [
             [
-                "b6b28de5.80a45"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "659db038.34a6c",
+        "id": "b5c37d60.ea47a",
         "type": "ui_button",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
-        "group": "4793e25c.67ee4c",
+        "group": "500cf354.5d91dc",
         "order": 2,
         "width": 0,
         "height": 0,
@@ -161,16 +145,16 @@
         "y": 145,
         "wires": [
             [
-                "b6b28de5.80a45"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "270249f5.11ff36",
+        "id": "3721d024.a918f",
         "type": "ui_button",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
-        "group": "4793e25c.67ee4c",
+        "group": "500cf354.5d91dc",
         "order": 3,
         "width": 0,
         "height": 0,
@@ -187,16 +171,16 @@
         "y": 188,
         "wires": [
             [
-                "b6b28de5.80a45"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "534a9224.574aac",
+        "id": "18708136.0c698f",
         "type": "ui_button",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
-        "group": "4793e25c.67ee4c",
+        "group": "500cf354.5d91dc",
         "order": 4,
         "width": 0,
         "height": 0,
@@ -213,16 +197,16 @@
         "y": 235,
         "wires": [
             [
-                "b6b28de5.80a45"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "b983d5ff.1e4568",
+        "id": "588c08f0.621098",
         "type": "ui_button",
-        "z": "b56c5c24.a2f6e",
+        "z": "173a3a0e.b30ea6",
         "name": "",
-        "group": "ddfefbbe.729768",
+        "group": "79fed3de.4663fc",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -239,90 +223,44 @@
         "y": 226,
         "wires": [
             [
-                "b6b28de5.80a45"
+                "b4544da6.44934"
             ]
         ]
     },
     {
-        "id": "9df20221.39142",
+        "id": "e4cda748.7d5048",
         "type": "comment",
-        "z": "b56c5c24.a2f6e",
-        "name": "Basic dashboard demonstrating Tello control and response",
+        "z": "173a3a0e.b30ea6",
+        "name": "Basic dashboard demonstrating Tello control",
         "info": "",
-        "x": 227.5,
+        "x": 187.5,
         "y": 36,
         "wires": []
     },
     {
-        "id": "341a122c.11076e",
-        "type": "udp in",
-        "z": "b56c5c24.a2f6e",
-        "name": "",
-        "iface": "",
-        "port": "8889",
-        "ipv": "udp4",
-        "multicast": "false",
-        "group": "",
-        "datatype": "buffer",
-        "x": 599.5,
-        "y": 99,
-        "wires": [
-            [
-                "72f2000e.02d1d"
-            ]
-        ]
-    },
-    {
-        "id": "72f2000e.02d1d",
-        "type": "ui_text",
-        "z": "b56c5c24.a2f6e",
-        "group": "9ea95209.e9644",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Response",
-        "format": "{{msg.payload}}",
-        "layout": "row-left",
-        "x": 612.5,
-        "y": 174,
-        "wires": []
-    },
-    {
-        "id": "ddfefbbe.729768",
+        "id": "79fed3de.4663fc",
         "type": "ui_group",
         "z": "",
         "name": "Tello Control",
-        "tab": "7a864b47.fea904",
+        "tab": "12f7ce01.3e7a22",
         "order": 1,
         "disp": true,
         "width": "6",
         "collapse": false
     },
     {
-        "id": "4793e25c.67ee4c",
+        "id": "500cf354.5d91dc",
         "type": "ui_group",
         "z": "",
         "name": "Flips",
-        "tab": "7a864b47.fea904",
+        "tab": "12f7ce01.3e7a22",
         "order": 2,
         "disp": true,
         "width": "6",
         "collapse": false
     },
     {
-        "id": "9ea95209.e9644",
-        "type": "ui_group",
-        "z": "",
-        "name": "Tello Response",
-        "tab": "7a864b47.fea904",
-        "order": 3,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "7a864b47.fea904",
+        "id": "12f7ce01.3e7a22",
         "type": "ui_tab",
         "z": "",
         "name": "Main",

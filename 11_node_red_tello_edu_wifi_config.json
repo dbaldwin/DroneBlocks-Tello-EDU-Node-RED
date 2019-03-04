@@ -1,0 +1,98 @@
+[
+    {
+        "id": "7872fefd.12f34",
+        "type": "tab",
+        "label": "Tello EDU Wifi Configuration",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "d2f2e83c.5aafd8",
+        "type": "inject",
+        "z": "7872fefd.12f34",
+        "name": "Tello Wifi Configuration",
+        "topic": "",
+        "payload": "wifi TP-Link_2ADE 55800778",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 205.5,
+        "y": 131,
+        "wires": [
+            [
+                "c233c5e5.e24fc8"
+            ]
+        ]
+    },
+    {
+        "id": "c233c5e5.e24fc8",
+        "type": "udp out",
+        "z": "7872fefd.12f34",
+        "name": "",
+        "addr": "192.168.10.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 505.5,
+        "y": 132,
+        "wires": []
+    },
+    {
+        "id": "6d3dc90a.0a1df8",
+        "type": "udp in",
+        "z": "7872fefd.12f34",
+        "name": "",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 165.5,
+        "y": 190,
+        "wires": [
+            [
+                "fadb0802.739018"
+            ]
+        ]
+    },
+    {
+        "id": "fadb0802.739018",
+        "type": "debug",
+        "z": "7872fefd.12f34",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 352.5,
+        "y": 190,
+        "wires": []
+    },
+    {
+        "id": "4aa5f72f.b1efe8",
+        "type": "inject",
+        "z": "7872fefd.12f34",
+        "name": "Put Tello into Command Mode",
+        "topic": "",
+        "payload": "command",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 230.5,
+        "y": 81,
+        "wires": [
+            [
+                "c233c5e5.e24fc8"
+            ]
+        ]
+    }
+]

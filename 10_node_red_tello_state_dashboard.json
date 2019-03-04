@@ -17,8 +17,8 @@
         "multicast": "false",
         "group": "",
         "datatype": "utf8",
-        "x": 110,
-        "y": 180,
+        "x": 103,
+        "y": 258,
         "wires": [
             [
                 "24b59c30.e44e14"
@@ -30,11 +30,11 @@
         "type": "function",
         "z": "ef4b93d8.c37da",
         "name": "Tello state parser",
-        "func": "// Tello state message format\n// pitch:11;roll:0;yaw:3;vgx:0;vgy:0;vgz:0;templ:49;temph:51;tof:59;h:0;bat:70;baro:308.45;time:0;agx:179.00;agy:-30.00;agz:-995.00;\n\nvar data = msg.payload.split(\";\");\nvar pitch = data[0].split(\"pitch:\")[1];\nvar roll = data[1].split(\"roll:\")[1];\nvar yaw = data[2].split(\"yaw:\")[1];\nvar xspeed = data[3].split(\"vgx:\")[1];\nvar yspeed = data[4].split(\"vgy:\")[1];\nvar zspeed = data[5].split(\"vgz:\")[1];\nvar lowtemp = data[6].split(\"templ:\")[1];\nvar hightemp = data[7].split(\"temph:\")[1];\nvar distance = data[8].split(\"tof:\")[1];\nvar height = data[9].split(\"h:\")[1];\nvar battery = data[10].split(\"bat:\")[1];\nvar barometer = data[11].split(\"baro:\")[1];\nvar motortime = data[12].split(\"time:\")[1];\nvar xaccel = data[13].split(\"agx:\")[1];\nvar yaccel = data[14].split(\"agy:\")[1];\nvar zaccel = data[15].split(\"agz:\")[1];\n\nreturn [{payload: pitch, topic: \"pitch\"}, {payload: roll, topic: \"roll\"}, {payload: hightemp}, {payload: battery}, {payload: height}];\n\n",
-        "outputs": 5,
+        "func": "// Tello state message format\n// pitch:11;roll:0;yaw:3;vgx:0;vgy:0;vgz:0;templ:49;temph:51;tof:59;h:0;bat:70;baro:308.45;time:0;agx:179.00;agy:-30.00;agz:-995.00;\n\nvar data = msg.payload.split(\";\");\nvar pitch = data[0].split(\"pitch:\")[1];\nvar roll = data[1].split(\"roll:\")[1];\nvar yaw = data[2].split(\"yaw:\")[1];\nvar xspeed = data[3].split(\"vgx:\")[1];\nvar yspeed = data[4].split(\"vgy:\")[1];\nvar zspeed = data[5].split(\"vgz:\")[1];\nvar lowtemp = data[6].split(\"templ:\")[1];\nvar hightemp = data[7].split(\"temph:\")[1];\nvar distance = data[8].split(\"tof:\")[1];\nvar height = data[9].split(\"h:\")[1];\nvar battery = data[10].split(\"bat:\")[1];\nvar barometer = data[11].split(\"baro:\")[1];\nvar motortime = data[12].split(\"time:\")[1];\nvar xaccel = data[13].split(\"agx:\")[1];\nvar yaccel = data[14].split(\"agy:\")[1];\nvar zaccel = data[15].split(\"agz:\")[1];\n\nreturn [{payload: pitch, topic: \"pitch\"}, {payload: roll, topic: \"roll\"}, {payload: hightemp}, {payload: battery}];\n\n",
+        "outputs": 4,
         "noerr": 0,
-        "x": 441,
-        "y": 385,
+        "x": 434,
+        "y": 463,
         "wires": [
             [
                 "43169c3a.8c2554"
@@ -47,9 +47,6 @@
             ],
             [
                 "bb38d269.671b6"
-            ],
-            [
-                "d6b78b0.1d99d78"
             ]
         ]
     },
@@ -88,21 +85,10 @@
             "#c5b0d5"
         ],
         "useOldStyle": false,
-        "x": 656,
-        "y": 281,
+        "x": 649,
+        "y": 359,
         "wires": [
             [],
-            []
-        ]
-    },
-    {
-        "id": "f957f18c.a30d7",
-        "type": "ui_ui_control",
-        "z": "ef4b93d8.c37da",
-        "name": "",
-        "x": 140,
-        "y": 680,
-        "wires": [
             []
         ]
     },
@@ -118,7 +104,7 @@
         "outport": "",
         "base64": false,
         "multicast": "false",
-        "x": 412,
+        "x": 411,
         "y": 80,
         "wires": []
     },
@@ -164,8 +150,8 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 665,
-        "y": 331,
+        "x": 658,
+        "y": 409,
         "wires": []
     },
     {
@@ -180,8 +166,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 514.5,
-        "y": 147,
+        "x": 507.5,
+        "y": 225,
         "wires": [
             [
                 "24480ae8.f12c26"
@@ -210,62 +196,20 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 655.5,
-        "y": 385,
-        "wires": []
-    },
-    {
-        "id": "d6b78b0.1d99d78",
-        "type": "ui_chart",
-        "z": "ef4b93d8.c37da",
-        "name": "",
-        "group": "897023e8.df1dc",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "label": "Height",
-        "chartType": "bar",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "0",
-        "ymax": "300",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "3600",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "useOldStyle": false,
         "x": 648.5,
-        "y": 441,
-        "wires": [
-            [],
-            []
-        ]
+        "y": 463,
+        "wires": []
     },
     {
         "id": "24b59c30.e44e14",
         "type": "function",
         "z": "ef4b93d8.c37da",
         "name": "Count and limit",
-        "func": "var counter = flow.get(\"counter\") || 0;\ncounter = counter + 1;\nflow.set(\"counter\", counter);\n\nif (counter % 20 === 0) {\n\nvar data = [];\n    data.push([{payload: counter}]);\n    data.push([{payload: msg.payload}]);\n    return data;\n} else {\n    return null;\n}\n",
+        "func": "var counter = flow.get(\"counter\") || 0;\ncounter = counter + 1;\nflow.set(\"counter\", counter);\n\nif (counter % 5 === 0) {\n    var data = [];\n    data.push([{payload: counter}]);\n    data.push([{payload: msg.payload}]);\n    return data;\n} else {\n    return null;\n}",
         "outputs": 2,
         "noerr": 0,
-        "x": 174.5,
-        "y": 263,
+        "x": 167.5,
+        "y": 341,
         "wires": [
             [
                 "93cec6b5.2c5208"
@@ -284,11 +228,11 @@
         "width": "0",
         "height": "0",
         "name": "",
-        "label": "Message counter",
+        "label": "Counter",
         "format": "{{msg.payload}}",
         "layout": "row-left",
-        "x": 444.5,
-        "y": 267,
+        "x": 407.5,
+        "y": 345,
         "wires": []
     },
     {
@@ -317,13 +261,33 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 556.5,
-        "y": 211,
+        "x": 549.5,
+        "y": 289,
         "wires": [
             [
                 "43169c3a.8c2554"
             ]
         ]
+    },
+    {
+        "id": "23e9423.9056cbe",
+        "type": "comment",
+        "z": "ef4b93d8.c37da",
+        "name": "View Tello State Information in a Dashboard Format",
+        "info": "",
+        "x": 224.5,
+        "y": 32,
+        "wires": []
+    },
+    {
+        "id": "4b9048e4.09ff28",
+        "type": "comment",
+        "z": "ef4b93d8.c37da",
+        "name": "Receive state info from Tello",
+        "info": "",
+        "x": 154,
+        "y": 191,
+        "wires": []
     },
     {
         "id": "4cb64dda.e5e274",
@@ -351,7 +315,7 @@
         "id": "f29ac4c5.902b28",
         "type": "ui_group",
         "z": "",
-        "name": "Message Counter",
+        "name": "Messages",
         "tab": "1860408.a78e7c",
         "order": 1,
         "disp": true,

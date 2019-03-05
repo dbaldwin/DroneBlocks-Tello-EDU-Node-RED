@@ -1,0 +1,223 @@
+[
+    {
+        "id": "5c5a4e38.26a3",
+        "type": "tab",
+        "label": "Jumping Between Mission Pads With Tello EDU",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "de5bb996.df72c8",
+        "type": "template",
+        "z": "5c5a4e38.26a3",
+        "name": "Mission pad code",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "command\nmon\nmdirection 2\ntakeoff\njump 200 0 100 50 0 m1 m2\njump 200 0 100 50 0 m2 m1\njump 200 0 100 50 0 m1 m2\njump 200 0 100 50 0 m2 m1\nland",
+        "output": "str",
+        "x": 345.5,
+        "y": 313,
+        "wires": [
+            [
+                "7a0e37e.ecc11c8"
+            ]
+        ]
+    },
+    {
+        "id": "dad2d991.b15928",
+        "type": "inject",
+        "z": "5c5a4e38.26a3",
+        "name": "Launch",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 148.5,
+        "y": 269,
+        "wires": [
+            [
+                "de5bb996.df72c8"
+            ]
+        ]
+    },
+    {
+        "id": "7a0e37e.ecc11c8",
+        "type": "csv",
+        "z": "5c5a4e38.26a3",
+        "name": "split commands",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "command",
+        "skip": "0",
+        "x": 509.5,
+        "y": 210,
+        "wires": [
+            [
+                "1f358ed9.643ab1"
+            ]
+        ]
+    },
+    {
+        "id": "1f358ed9.643ab1",
+        "type": "function",
+        "z": "5c5a4e38.26a3",
+        "name": "Command queue",
+        "func": "// Use a message queue to handle this mission\nvar queue = context.get(\"queue\") || [];\nvar busy = context.get(\"busy\") || false;\n\n// Ready for processing next command\nif (msg.hasOwnProperty(\"ready\")) {\n    if (queue.length > 0) {\n        var message = queue.shift();\n        msg.payload = message.command;\n        return msg;\n    } else {\n        context.set(\"busy\", false);\n    }\n// This happens the first time the node is processed\n} else {\n    // This builds up the command queue\n    if (busy) {\n        queue.push(msg.payload);\n        context.set(\"queue\", queue);\n    // When the command queue is done building we pass the message to the next node and begin the mission\n    } else {\n        context.set(\"busy\", true);\n        msg.payload = msg.payload.command;\n        return msg;\n    }\n}\n\n// We only want messages to be passed based on the logic above\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 662.5,
+        "y": 333,
+        "wires": [
+            [
+                "822519f6.8cba48"
+            ]
+        ]
+    },
+    {
+        "id": "822519f6.8cba48",
+        "type": "udp out",
+        "z": "5c5a4e38.26a3",
+        "name": "",
+        "addr": "192.168.10.1",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 824,
+        "y": 213,
+        "wires": []
+    },
+    {
+        "id": "34aa3905.c80466",
+        "type": "udp in",
+        "z": "5c5a4e38.26a3",
+        "name": "",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 139,
+        "y": 406,
+        "wires": [
+            [
+                "6c3d020b.626dac"
+            ]
+        ]
+    },
+    {
+        "id": "6c3d020b.626dac",
+        "type": "switch",
+        "z": "5c5a4e38.26a3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ok",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 297,
+        "y": 452,
+        "wires": [
+            [
+                "c5452dde.969f5"
+            ],
+            [
+                "b44d7178.6ffe1"
+            ]
+        ]
+    },
+    {
+        "id": "c5452dde.969f5",
+        "type": "delay",
+        "z": "5c5a4e38.26a3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 452,
+        "y": 408,
+        "wires": [
+            [
+                "95cd8416.31e938"
+            ]
+        ]
+    },
+    {
+        "id": "95cd8416.31e938",
+        "type": "function",
+        "z": "5c5a4e38.26a3",
+        "name": "Ready",
+        "func": "msg.ready = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 596,
+        "y": 455,
+        "wires": [
+            [
+                "1f358ed9.643ab1"
+            ]
+        ]
+    },
+    {
+        "id": "b44d7178.6ffe1",
+        "type": "debug",
+        "z": "5c5a4e38.26a3",
+        "name": "Display error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 453,
+        "y": 510,
+        "wires": []
+    },
+    {
+        "id": "e64e391d.236648",
+        "type": "comment",
+        "z": "5c5a4e38.26a3",
+        "name": "Connect to Tello EDU and launch the mission",
+        "info": "",
+        "x": 239.5,
+        "y": 161,
+        "wires": []
+    },
+    {
+        "id": "32cd870c.1f5dc8",
+        "type": "comment",
+        "z": "5c5a4e38.26a3",
+        "name": "This mission demonstrates jumping between two mission pads with Tello EDU",
+        "info": "",
+        "x": 339.5,
+        "y": 121,
+        "wires": []
+    }
+]

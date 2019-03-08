@@ -1,35 +1,35 @@
 [
     {
-        "id": "7872fefd.12f34",
+        "id": "1921de80.f2a801",
         "type": "tab",
         "label": "Tello EDU Wifi Configuration",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "d2f2e83c.5aafd8",
+        "id": "707f2b19.fdf4a4",
         "type": "inject",
-        "z": "7872fefd.12f34",
-        "name": "Tello Wifi Configuration",
+        "z": "1921de80.f2a801",
+        "name": "Tello EDU Wifi Configuration",
         "topic": "",
-        "payload": "wifi TP-Link_2ADE 55800778",
+        "payload": "ap TP-Link_2ADE 55800778",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 205.5,
-        "y": 131,
+        "x": 223.5,
+        "y": 293,
         "wires": [
             [
-                "c233c5e5.e24fc8"
+                "e272a0ef.e6737"
             ]
         ]
     },
     {
-        "id": "c233c5e5.e24fc8",
+        "id": "e272a0ef.e6737",
         "type": "udp out",
-        "z": "7872fefd.12f34",
+        "z": "1921de80.f2a801",
         "name": "",
         "addr": "192.168.10.1",
         "iface": "",
@@ -38,14 +38,14 @@
         "outport": "",
         "base64": false,
         "multicast": "false",
-        "x": 505.5,
-        "y": 132,
+        "x": 508.5,
+        "y": 294,
         "wires": []
     },
     {
-        "id": "6d3dc90a.0a1df8",
+        "id": "9114ee06.a144a",
         "type": "udp in",
-        "z": "7872fefd.12f34",
+        "z": "1921de80.f2a801",
         "name": "",
         "iface": "",
         "port": "8889",
@@ -53,33 +53,33 @@
         "multicast": "false",
         "group": "",
         "datatype": "utf8",
-        "x": 165.5,
-        "y": 190,
+        "x": 138.5,
+        "y": 395,
         "wires": [
             [
-                "fadb0802.739018"
+                "1c742adf.084715"
             ]
         ]
     },
     {
-        "id": "fadb0802.739018",
+        "id": "1c742adf.084715",
         "type": "debug",
-        "z": "7872fefd.12f34",
+        "z": "1921de80.f2a801",
         "name": "",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 352.5,
-        "y": 190,
+        "x": 325.5,
+        "y": 395,
         "wires": []
     },
     {
-        "id": "4aa5f72f.b1efe8",
+        "id": "4958ad89.270714",
         "type": "inject",
-        "z": "7872fefd.12f34",
-        "name": "Put Tello into Command Mode",
+        "z": "1921de80.f2a801",
+        "name": "Put Tello EDU into Command Mode",
         "topic": "",
         "payload": "command",
         "payloadType": "str",
@@ -87,12 +87,92 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 230.5,
-        "y": 81,
+        "x": 240.5,
+        "y": 171,
         "wires": [
             [
-                "c233c5e5.e24fc8"
+                "e272a0ef.e6737"
             ]
         ]
+    },
+    {
+        "id": "91c4833e.3104a",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "Configure Tello EDUs for Access Point and Swarm",
+        "info": "",
+        "x": 259.5,
+        "y": 32,
+        "wires": []
+    },
+    {
+        "id": "fb212072.72888",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "1. Power up Tello EDU and connect to its network from this computer",
+        "info": "",
+        "x": 321.5,
+        "y": 76,
+        "wires": []
+    },
+    {
+        "id": "715e73e4.6de5ec",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "2. Once Tello EDU is connected inject the command message below",
+        "info": "",
+        "x": 310,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "78317e7a.0f1b1",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "3. Make sure to modify the command below to include your access point SSID and password, then inject the message",
+        "info": "",
+        "x": 474.5,
+        "y": 232,
+        "wires": []
+    },
+    {
+        "id": "eb74bdac.4fe77",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "4. Look in the debug pane to see a response from Tello EDU saying it will reboot in 3s",
+        "info": "",
+        "x": 378.5,
+        "y": 350,
+        "wires": []
+    },
+    {
+        "id": "bfb57739.04def8",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "5. Assuming all goes well Tello EDU will reboot and connect to the access point",
+        "info": "",
+        "x": 357.5,
+        "y": 446,
+        "wires": []
+    },
+    {
+        "id": "46392a1a.3a67b4",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "6. Power down Tello EDU and repeat these steps with other Tello EDU drones",
+        "info": "",
+        "x": 347.5,
+        "y": 534,
+        "wires": []
+    },
+    {
+        "id": "3e7f060.b3d6afa",
+        "type": "comment",
+        "z": "1921de80.f2a801",
+        "name": "Note: You will no longer see the Tello EDU network listed in your network settings since it's now connected to the access point",
+        "info": "",
+        "x": 497.5,
+        "y": 490,
+        "wires": []
     }
 ]

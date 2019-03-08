@@ -1,0 +1,206 @@
+[
+    {
+        "id": "c3bcedc1.b026f",
+        "type": "tab",
+        "label": "Communicating with Multiple Tello EDUs",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a169d319.fab43",
+        "type": "udp in",
+        "z": "c3bcedc1.b026f",
+        "name": "Tello EDU Responses",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 146.5,
+        "y": 514,
+        "wires": [
+            [
+                "802d9651.5430a8"
+            ]
+        ]
+    },
+    {
+        "id": "ab415111.08bb2",
+        "type": "udp out",
+        "z": "c3bcedc1.b026f",
+        "name": "Tello EDU #1",
+        "addr": "192.168.0.101",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 463.5,
+        "y": 321,
+        "wires": []
+    },
+    {
+        "id": "974884c3.5a0488",
+        "type": "udp out",
+        "z": "c3bcedc1.b026f",
+        "name": "Tello EDU #2",
+        "addr": "192.168.0.102",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 463,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "2ed04d26.060532",
+        "type": "inject",
+        "z": "c3bcedc1.b026f",
+        "name": "Get battery",
+        "topic": "",
+        "payload": "battery?",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 132.5,
+        "y": 409,
+        "wires": [
+            [
+                "ab415111.08bb2",
+                "974884c3.5a0488"
+            ]
+        ]
+    },
+    {
+        "id": "158dcd44.b243e3",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "Use this flow to test communication with multiple Tello EDUs through an access point",
+        "info": "",
+        "x": 343.5,
+        "y": 32,
+        "wires": []
+    },
+    {
+        "id": "d28926d7.c388d8",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "1. Make sure you understand how to obtain the IP address of your Tello EDU drones when connected to an access point. This is covered in the lesson video.",
+        "info": "",
+        "x": 564.5,
+        "y": 77,
+        "wires": []
+    },
+    {
+        "id": "802d9651.5430a8",
+        "type": "debug",
+        "z": "c3bcedc1.b026f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 381.5,
+        "y": 514,
+        "wires": []
+    },
+    {
+        "id": "94889ab5.de03e8",
+        "type": "inject",
+        "z": "c3bcedc1.b026f",
+        "name": "Put Tello EDU into SDK mode",
+        "topic": "",
+        "payload": "command",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 188.5,
+        "y": 309,
+        "wires": [
+            [
+                "ab415111.08bb2",
+                "974884c3.5a0488"
+            ]
+        ]
+    },
+    {
+        "id": "b5f4daa9.f26188",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "2. Power up all Tello EDU drones",
+        "info": "",
+        "x": 174,
+        "y": 125,
+        "wires": []
+    },
+    {
+        "id": "d7610cbf.4e945",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "3. Connect to the access point from the computer running Node-RED",
+        "info": "",
+        "x": 293,
+        "y": 169,
+        "wires": []
+    },
+    {
+        "id": "f848a0f6.7d069",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "4. Update each of the UDP output nodes with each Tello EDU IP address below. Add additional output nodes if necessary.",
+        "info": "",
+        "x": 454,
+        "y": 213,
+        "wires": []
+    },
+    {
+        "id": "49bf77e6.bdcf38",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "5. Inject the command message below. This will put all connected Tello EDUs into SDK mode.",
+        "info": "",
+        "x": 365,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "52256ec2.9154c",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "6. Send battery command",
+        "info": "",
+        "x": 154,
+        "y": 358,
+        "wires": []
+    },
+    {
+        "id": "3b725d00.0bb1c4",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "7. If all goes well you should see the battery status from all connected Tello EDUs in the debug pane",
+        "info": "",
+        "x": 386,
+        "y": 461,
+        "wires": []
+    },
+    {
+        "id": "db584ac2.4fab68",
+        "type": "comment",
+        "z": "c3bcedc1.b026f",
+        "name": "Congratulations! You're now ready to Swarm with Node-RED and Tello EDU!",
+        "info": "",
+        "x": 318,
+        "y": 563,
+        "wires": []
+    }
+]

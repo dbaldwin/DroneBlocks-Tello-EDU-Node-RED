@@ -1,0 +1,262 @@
+[
+    {
+        "id": "f958b23e.9b5e4",
+        "type": "tab",
+        "label": "Swarm Vertical Star with Multiple Tello EDUs",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "66b3251b.e1516c",
+        "type": "template",
+        "z": "f958b23e.9b5e4",
+        "name": "Vertical Star Mission",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "command\ntakeoff\ngo 0 60 120 25\ngo 0 60 -120 25\ngo 0 -120 60 25\ngo 0 120 0 25\ngo 0 -120 -60 25\nflip f\nland",
+        "output": "str",
+        "x": 229.5,
+        "y": 188,
+        "wires": [
+            [
+                "e31c038.4fe4c"
+            ]
+        ]
+    },
+    {
+        "id": "9b428b10.75bcb8",
+        "type": "udp in",
+        "z": "f958b23e.9b5e4",
+        "name": "",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 110,
+        "y": 409,
+        "wires": [
+            [
+                "2b11ab0d.154f14",
+                "c9c26072.2998e"
+            ]
+        ]
+    },
+    {
+        "id": "2b11ab0d.154f14",
+        "type": "switch",
+        "z": "f958b23e.9b5e4",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ok",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 270,
+        "y": 411,
+        "wires": [
+            [
+                "25ab448a.e0162c"
+            ],
+            [
+                "a3163f47.43831"
+            ]
+        ]
+    },
+    {
+        "id": "a3163f47.43831",
+        "type": "debug",
+        "z": "f958b23e.9b5e4",
+        "name": "Display error in debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 460.5,
+        "y": 481,
+        "wires": []
+    },
+    {
+        "id": "25ab448a.e0162c",
+        "type": "delay",
+        "z": "f958b23e.9b5e4",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 437,
+        "y": 382,
+        "wires": [
+            [
+                "b083b4cb.725cf8"
+            ]
+        ]
+    },
+    {
+        "id": "b083b4cb.725cf8",
+        "type": "function",
+        "z": "f958b23e.9b5e4",
+        "name": "Ready",
+        "func": "msg.ready = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 583,
+        "y": 312,
+        "wires": [
+            [
+                "84e984fd.98e6a8"
+            ]
+        ]
+    },
+    {
+        "id": "84e984fd.98e6a8",
+        "type": "function",
+        "z": "f958b23e.9b5e4",
+        "name": "Command queue",
+        "func": "// Use a message queue to handle this mission\nvar queue = context.get(\"queue\") || [];\nvar busy = context.get(\"busy\") || false;\n\n// Ready for processing next command\nif (msg.hasOwnProperty(\"ready\")) {\n    if (queue.length > 0) {\n        var message = queue.shift();\n        msg.payload = message.command;\n        return msg;\n    } else {\n        context.set(\"busy\", false);\n    }\n// This happens the first time the node is processed\n} else {\n    // This builds up the command queue\n    if (busy) {\n        queue.push(msg.payload);\n        context.set(\"queue\", queue);\n    // When the command queue is done building we pass the message to the next node and begin the mission\n    } else {\n        context.set(\"busy\", true);\n        msg.payload = msg.payload.command;\n        return msg;\n    }\n}\n\n// We only want messages to be passed based on the logic above\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 524,
+        "y": 225,
+        "wires": [
+            [
+                "1ab9b129.ca95af",
+                "cfc7d73.59e8728"
+            ]
+        ]
+    },
+    {
+        "id": "1ab9b129.ca95af",
+        "type": "udp out",
+        "z": "f958b23e.9b5e4",
+        "name": "Tello EDU #1",
+        "addr": "192.168.0.101",
+        "iface": "",
+        "port": "8889",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 760,
+        "y": 134,
+        "wires": []
+    },
+    {
+        "id": "cfc7d73.59e8728",
+        "type": "debug",
+        "z": "f958b23e.9b5e4",
+        "name": "Display command sent",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 789.5,
+        "y": 241,
+        "wires": []
+    },
+    {
+        "id": "90030c2c.1cc8e",
+        "type": "inject",
+        "z": "f958b23e.9b5e4",
+        "name": "Launch!",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 124,
+        "y": 80,
+        "wires": [
+            [
+                "66b3251b.e1516c"
+            ]
+        ]
+    },
+    {
+        "id": "e31c038.4fe4c",
+        "type": "csv",
+        "z": "f958b23e.9b5e4",
+        "name": "Split commands",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "command",
+        "skip": "0",
+        "x": 402,
+        "y": 92,
+        "wires": [
+            [
+                "84e984fd.98e6a8"
+            ]
+        ]
+    },
+    {
+        "id": "c9c26072.2998e",
+        "type": "debug",
+        "z": "f958b23e.9b5e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 212.5,
+        "y": 307,
+        "wires": []
+    },
+    {
+        "id": "ab6b1032.99ea3",
+        "type": "switch",
+        "z": "f958b23e.9b5e4",
+        "name": "",
+        "property": "ip",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "192.168.0.100",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "192.168.0.101",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 211.5,
+        "y": 552,
+        "wires": [
+            [],
+            []
+        ]
+    }
+]

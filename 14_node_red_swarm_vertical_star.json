@@ -1,37 +1,37 @@
 [
     {
-        "id": "f958b23e.9b5e4",
+        "id": "396dbe45.78fc92",
         "type": "tab",
         "label": "Swarm Vertical Star with Multiple Tello EDUs",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "66b3251b.e1516c",
+        "id": "ad234727.7ee378",
         "type": "template",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Left Vertical Star Mission",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "plain",
-        "template": "command\ntakeoff\ngo 0 60 120 25\ngo 0 60 -120 25\ngo 0 -120 60 25\ngo 0 120 0 25\ngo 0 -120 -60 25\nflip f\nland",
+        "template": "command\ntakeoff\ngo 0 45 90 50\ngo 0 45 -90 50\ngo 0 -90 45 50\ngo 0 90 0 50\ngo 0 -90 -45 50\nflip f\nland",
         "output": "str",
-        "x": 289.5,
-        "y": 85,
+        "x": 293.25,
+        "y": 85.00000810623169,
         "wires": [
             [
-                "e31c038.4fe4c"
+                "3c5f75ef.5ca46a"
             ]
         ]
     },
     {
-        "id": "9b428b10.75bcb8",
+        "id": "417aadd7.c13b44",
         "type": "udp in",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "",
         "iface": "",
-        "port": "9000",
+        "port": "8889",
         "ipv": "udp4",
         "multicast": "false",
         "group": "",
@@ -40,15 +40,15 @@
         "y": 211,
         "wires": [
             [
-                "2b11ab0d.154f14",
-                "c9c26072.2998e"
+                "f92a3c8.86eb6c",
+                "dcdca693.0d76e8"
             ]
         ]
     },
     {
-        "id": "2b11ab0d.154f14",
+        "id": "f92a3c8.86eb6c",
         "type": "switch",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "",
         "property": "payload",
         "propertyType": "msg",
@@ -69,17 +69,17 @@
         "y": 245,
         "wires": [
             [
-                "25ab448a.e0162c"
+                "ce99902c.da238"
             ],
             [
-                "a3163f47.43831"
+                "d75f0133.96f1a"
             ]
         ]
     },
     {
-        "id": "a3163f47.43831",
+        "id": "d75f0133.96f1a",
         "type": "debug",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Display errors",
         "active": true,
         "tosidebar": true,
@@ -91,9 +91,9 @@
         "wires": []
     },
     {
-        "id": "25ab448a.e0162c",
+        "id": "ce99902c.da238",
         "type": "delay",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "",
         "pauseType": "delay",
         "timeout": "1",
@@ -109,33 +109,33 @@
         "y": 239,
         "wires": [
             [
-                "b083b4cb.725cf8"
+                "76e3aade.d38a74"
             ]
         ]
     },
     {
-        "id": "b083b4cb.725cf8",
+        "id": "76e3aade.d38a74",
         "type": "function",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Ready",
-        "func": "msg.ready = true;\n\n// This will route messages to Tello EDU #1\nif (msg.ip === '127.0.0.1') {\n    return [msg, null];\n// This will route messages to Tello EDU #2\n} else if (msg.ip === '192.168.86.27') {\n    return [null, msg];\n} else {\n    return null;\n}",
+        "func": "msg.ready = true;\n\n// This will route messages to Tello EDU #1\nif (msg.ip === '192.168.0.100') {\n    return [msg, null];\n// This will route messages to Tello EDU #2\n} else if (msg.ip === '192.168.0.102') {\n    return [null, msg];\n} else {\n    return null;\n}",
         "outputs": 2,
         "noerr": 0,
         "x": 708,
         "y": 239,
         "wires": [
             [
-                "84e984fd.98e6a8"
+                "fc824e89.f3ce6"
             ],
             [
-                "76af9d61.f17b74"
+                "28283573.830c0a"
             ]
         ]
     },
     {
-        "id": "84e984fd.98e6a8",
+        "id": "fc824e89.f3ce6",
         "type": "function",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Command queue",
         "func": "// Use a message queue to handle this mission\nvar queue = context.get(\"queue\") || [];\nvar busy = context.get(\"busy\") || false;\n\n// Ready for processing next command\nif (msg.hasOwnProperty(\"ready\")) {\n    if (queue.length > 0) {\n        var message = queue.shift();\n        msg.payload = message.command;\n        return msg;\n    } else {\n        context.set(\"busy\", false);\n    }\n// This happens the first time the node is processed\n} else {\n    // This builds up the command queue\n    if (busy) {\n        queue.push(msg.payload);\n        context.set(\"queue\", queue);\n    // When the command queue is done building we pass the message to the next node and begin the mission\n    } else {\n        context.set(\"busy\", true);\n        msg.payload = msg.payload.command;\n        return msg;\n    }\n}\n\n// We only want messages to be passed based on the logic above\nreturn null;",
         "outputs": 1,
@@ -144,16 +144,16 @@
         "y": 86,
         "wires": [
             [
-                "1ab9b129.ca95af"
+                "62e521d1.a61bf"
             ]
         ]
     },
     {
-        "id": "1ab9b129.ca95af",
+        "id": "62e521d1.a61bf",
         "type": "udp out",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Tello EDU #1",
-        "addr": "127.0.0.1",
+        "addr": "192.168.0.100",
         "iface": "",
         "port": "8889",
         "ipv": "udp4",
@@ -165,9 +165,9 @@
         "wires": []
     },
     {
-        "id": "90030c2c.1cc8e",
+        "id": "a9f6b06f.79298",
         "type": "inject",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Launch!",
         "topic": "",
         "payload": "true",
@@ -176,19 +176,19 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 96,
-        "y": 224,
+        "x": 93.5,
+        "y": 224.0000033378601,
         "wires": [
             [
-                "66b3251b.e1516c",
-                "d7205aad.bb0b98"
+                "43821d46.bffa74",
+                "ad234727.7ee378"
             ]
         ]
     },
     {
-        "id": "e31c038.4fe4c",
+        "id": "3c5f75ef.5ca46a",
         "type": "csv",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Split commands",
         "sep": ",",
         "hdrin": "",
@@ -201,14 +201,14 @@
         "y": 86,
         "wires": [
             [
-                "84e984fd.98e6a8"
+                "fc824e89.f3ce6"
             ]
         ]
     },
     {
-        "id": "c9c26072.2998e",
+        "id": "dcdca693.0d76e8",
         "type": "debug",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Display message object",
         "active": true,
         "tosidebar": true,
@@ -220,28 +220,28 @@
         "wires": []
     },
     {
-        "id": "d7205aad.bb0b98",
+        "id": "43821d46.bffa74",
         "type": "template",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Right Vertical Star Mission",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "plain",
-        "template": "command\ntakeoff\ngo 0 60 120 25\ngo 0 60 -120 25\ngo 0 -120 60 25\ngo 0 120 0 25\ngo 0 -120 -60 25\nflip f\nland",
+        "template": "command\ntakeoff\ngo 0 -45 90 50\ngo 0 -45 -90 50\ngo 0 90 45 50\ngo 0 -90 0 50\ngo 0 90 -45 50\nflip f\nland",
         "output": "str",
-        "x": 295,
-        "y": 393,
+        "x": 292.5,
+        "y": 391.75000858306885,
         "wires": [
             [
-                "a22dc767.fb2bd8"
+                "d2fffa9b.6f1de8"
             ]
         ]
     },
     {
-        "id": "a22dc767.fb2bd8",
+        "id": "d2fffa9b.6f1de8",
         "type": "csv",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Split commands",
         "sep": ",",
         "hdrin": "",
@@ -254,14 +254,14 @@
         "y": 392,
         "wires": [
             [
-                "76af9d61.f17b74"
+                "28283573.830c0a"
             ]
         ]
     },
     {
-        "id": "76af9d61.f17b74",
+        "id": "28283573.830c0a",
         "type": "function",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Command queue",
         "func": "// Use a message queue to handle this mission\nvar queue = context.get(\"queue\") || [];\nvar busy = context.get(\"busy\") || false;\n\n// Ready for processing next command\nif (msg.hasOwnProperty(\"ready\")) {\n    if (queue.length > 0) {\n        var message = queue.shift();\n        msg.payload = message.command;\n        return msg;\n    } else {\n        context.set(\"busy\", false);\n    }\n// This happens the first time the node is processed\n} else {\n    // This builds up the command queue\n    if (busy) {\n        queue.push(msg.payload);\n        context.set(\"queue\", queue);\n    // When the command queue is done building we pass the message to the next node and begin the mission\n    } else {\n        context.set(\"busy\", true);\n        msg.payload = msg.payload.command;\n        return msg;\n    }\n}\n\n// We only want messages to be passed based on the logic above\nreturn null;",
         "outputs": 1,
@@ -270,16 +270,16 @@
         "y": 391,
         "wires": [
             [
-                "7b15a4e4.0402dc"
+                "8475c2fd.c06b2"
             ]
         ]
     },
     {
-        "id": "7b15a4e4.0402dc",
+        "id": "8475c2fd.c06b2",
         "type": "udp out",
-        "z": "f958b23e.9b5e4",
+        "z": "396dbe45.78fc92",
         "name": "Tello EDU #2",
-        "addr": "127.0.0.1",
+        "addr": "192.168.0.102",
         "iface": "",
         "port": "8889",
         "ipv": "udp4",
